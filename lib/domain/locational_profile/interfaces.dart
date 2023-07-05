@@ -34,8 +34,7 @@ class IsarLocationProfilesRepository implements LocationProfilesRepository {
     return existingProfile != null;
   }
 
-
-  //Check to not let user create a profile with same themeColor and textSize
+  //Check to not let user create a profile with same themeColor and text
 
   //   Future<bool> isProfileExists(
   //     String themeColor, double textSize) async {
@@ -50,8 +49,6 @@ class IsarLocationProfilesRepository implements LocationProfilesRepository {
 
   //   return existingProfile != null;
   // }
-
-  
 
   @override
   Future<void> create(LocationalProfile locationProfile) async {
