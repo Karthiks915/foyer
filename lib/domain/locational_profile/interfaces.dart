@@ -51,6 +51,8 @@ class IsarLocationProfilesRepository implements LocationProfilesRepository {
   //   return existingProfile != null;
   // }
 
+  
+
   @override
   Future<void> create(LocationalProfile locationProfile) async {
     // TODO: implement create

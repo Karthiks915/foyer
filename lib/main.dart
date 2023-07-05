@@ -5,10 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 void main() {
   runApp(ProviderScope(child: Consumer(
     builder: (((context, ref, child) {
-      final states = [
-        
-
-      ];
+      final states = [];
 
       if (states.every((state) => state is AsyncData)) {
         return const MaterialApp(home: LocationProfileScreen());
@@ -32,13 +29,13 @@ class MyApp extends HookConsumerWidget {
       title: 'Location Profile Entry',
       theme: ThemeData(
         useMaterial3: true,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyMedium: TextStyle(
             fontSize: 16, // Specify your desired font size
           ),
         ),
       ),
-      home: LocationProfileScreen(),
+      home: const LocationProfileScreen(),
     );
   }
 }

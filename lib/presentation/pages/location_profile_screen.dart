@@ -58,7 +58,14 @@ class LocationProfileScreen extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'FontSize: ${colorFont.textSize} themeColor: ${color.toString()}',
+                  'Font Size: ${colorFont.textSize}',
+                  style: TextStyle(fontSize: 12, color: Colors.grey[900]),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Theme Color: ${color.toString()}',
                   style: TextStyle(fontSize: 12, color: Colors.grey[900]),
                 ),
                 const SizedBox(
