@@ -11,4 +11,4 @@ A simple application that uses
 
 Things to consider adding in the future
 
-- Adding a location service that updates the theme in real time based on the location. (Easy to do, but wasn't necessary for the application.)
+- Adding a location service that updates the theme in real time based on the location. (Wasn't necessary for the application.)
