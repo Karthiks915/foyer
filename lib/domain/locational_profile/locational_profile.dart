@@ -6,7 +6,7 @@ part 'locational_profile.g.dart';
 @freezed
 class LocationalProfile with _$LocationalProfile {
   factory LocationalProfile({
-    int? id,
+    int? id,  
     required String name,
     required double latitude,
     required double longitude,

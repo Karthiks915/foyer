@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$colorFontEntityHash() => r'196a5c2048b3f6db2b984d281f906fd8e0e98ab8';
+String _$colorFontEntityHash() => r'218ef9674cb652267cb4cc27783c7157adc0dbe6';
 
 /// See also [ColorFontEntity].
 @ProviderFor(ColorFontEntity)

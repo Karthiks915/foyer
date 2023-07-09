@@ -4,6 +4,10 @@ import 'package:path_provider/path_provider.dart';
 
 import 'locational_profile.dart';
 
+
+//This interface uses Isar as the local database, but switching this to Sembast, Objectbox or Hive is extremely easy.
+//It's abstracted away in every other file apart from this one and the provider which is a one line change.
+
 abstract class LocationProfilesRepository {
   Stream<List<LocationalProfile>> getLocationalProfileListStream();
   Stream<LocationalProfile> getLocationProfileStream(String locationProfileId);
@@ -34,7 +38,7 @@ class IsarLocationProfilesRepository implements LocationProfilesRepository {
     return existingProfile != null;
   }
 
-  //Check to not let user create a profile with same themeColor and text
+  //Check to not let user create a profile with same themeColor and text. Wasn't sure if this was needed.
 
   //   Future<bool> isProfileExists(
   //     String themeColor, double textSize) async {
@@ -102,6 +106,9 @@ class IsarLocationProfilesRepository implements LocationProfilesRepository {
     // TODO: implement update
     throw UnimplementedError();
   }
+
+  //So here's the code to open the database, so ideally you would want to do this as soon as the app loads using a provider.
+  //Since this is a simple app, I've choosen to do it this way.
 
   Future<Isar> openDb() async {
     if (Isar.instanceNames.isEmpty) {

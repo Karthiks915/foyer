@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:foyer_isar/application/string_to_color.dart';
 import 'package:foyer_isar/domain/color_font/color_font.dart';
@@ -17,6 +18,7 @@ class LocationProfileScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //I am using hooks to get the controllers for the text fields, helps with readability and no need to dispose.
     final latitude = useTextEditingController();
     final longitude = useTextEditingController();
 
@@ -28,16 +30,14 @@ class LocationProfileScreen extends HookConsumerWidget {
         bottomNavigationBar: GNav(
           tabs: [
             GButton(
-              onPressed: () {
-                print(colorFont);
-              },
+              onPressed: () {},
               icon: Icons.home,
               text: 'Home',
             ),
             GButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SavedLocationProfileScreen()));
+                    builder: (context) => const SavedLocationProfileScreen()));
               },
               icon: Icons.save_rounded,
               text: 'Saved',
@@ -46,7 +46,7 @@ class LocationProfileScreen extends HookConsumerWidget {
         ),
         appBar: AppBar(
           title: Text(
-            'Location Details',
+            'F O Y E R',
             style: TextStyle(fontSize: colorFont.textSize),
           ),
           backgroundColor: color,
@@ -57,16 +57,47 @@ class LocationProfileScreen extends HookConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Font Size: ${colorFont.textSize}',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[900]),
-                ),
+                const Text(
+                  'W E L C O M E',
+                  style: TextStyle(fontSize: 30),
+                ).animate().fadeIn().moveY(),
                 const SizedBox(
-                  height: 10,
+                  height: 250,
                 ),
-                Text(
-                  'Theme Color: ${color.toString()}',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[900]),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Font Size: ${colorFont.textSize}')
+                        .animate()
+                        .fadeIn()
+                        .moveX(),
+                    const VerticalDivider(
+                      color: Colors.black,
+                      thickness: 20,
+                    ),
+                    Text(
+                      'Color: ',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[900],
+                      ),
+                    ).animate().fadeIn().moveX(),
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: color,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ).animate().fadeIn().moveX(),
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 180),
+                  child: Divider(
+                    thickness: 2,
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -96,9 +127,9 @@ class LocationProfileScreen extends HookConsumerWidget {
                         const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
-                      // Additional input formatter to enforce double value
+                 
                       FilteringTextInputFormatter.deny(
-                          RegExp(r'^\.$')), // Disallow lone decimal point
+                          RegExp(r'^\.$')), 
                     ],
                     controller: longitude,
                     decoration: const InputDecoration(
@@ -112,13 +143,13 @@ class LocationProfileScreen extends HookConsumerWidget {
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: InkWell(
-                    onTap: () async {
+                  child: ElevatedButton(
+                    onPressed: () async {
                       if (latitude.text.isEmpty || longitude.text.isEmpty) {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return DialogBoxComponent(
+                            return const DialogBoxComponent(
                               isEmptyInput: true,
                             );
                           },
@@ -130,12 +161,16 @@ class LocationProfileScreen extends HookConsumerWidget {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return DialogBoxComponent(
+                            return const DialogBoxComponent(
                               isEmptyInput: true,
                             );
                           },
                         );
-                      } else if (await ref
+                      } //Used an await here since this is a small app, but ideally it's better to
+                      //load up the database as soon as the app loads, that way you don't have to
+                      //handle code asynchronously.
+                      
+                      else if (await ref
                           .watch(locationProfileRepositoryProvider)
                           .isLocationalProfileExists(
                               double.parse(latitude.text),
@@ -143,7 +178,7 @@ class LocationProfileScreen extends HookConsumerWidget {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return DialogBoxComponent(
+                            return const DialogBoxComponent(
                               isEmptyInput: false,
                             );
                           },
@@ -156,27 +191,21 @@ class LocationProfileScreen extends HookConsumerWidget {
                                 double.parse(longitude.text)));
                       }
                     },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: color,
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: color, // Text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(10), // Rounded corners
                       ),
-                      child: Text(
-                        'Add Location',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: colorFont.textSize,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      minimumSize: const Size(double.infinity,
+                          48), // Full width with a height of 48
                     ),
+                    child: const Text('Add Location',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
+                )
               ],
             ),
           ),

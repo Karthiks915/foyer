@@ -6,7 +6,7 @@ part of 'string_to_color.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getColorHash() => r'ba2894b36844e675538291c60b61ca683010b9dd';
+String _$getColorHash() => r'1e7c9f1fb16c510f24cd12cc45ae8a65f853c82a';
 
 /// Copied from Dart SDK
 class _SystemHash {

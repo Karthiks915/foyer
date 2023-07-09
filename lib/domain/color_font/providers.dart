@@ -3,6 +3,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'providers.g.dart';
 
+
+//Notifier class to handle state
+
 @riverpod
 class ColorFontEntity extends _$ColorFontEntity {
   @override

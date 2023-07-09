@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:foyer_isar/application/string_to_color.dart';
+import 'package:foyer_isar/domain/color_font/color_font.dart';
 import 'package:foyer_isar/domain/color_font/providers.dart';
 import 'package:foyer_isar/domain/locational_profile/locational_profile.dart';
 import 'package:foyer_isar/domain/locational_profile/providers.dart';
@@ -18,6 +20,8 @@ class MyBottomSheet extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final name = useTextEditingController();
     final textSize = useTextEditingController();
+    final ColorFont colorFont = ref.watch(colorFontEntityProvider);
+    final Color color = ref.watch(getColorProvider(colorFont.themeColor));
     final List<ColorSwatch> colors = [
       Colors.red,
       Colors.green,
@@ -28,8 +32,6 @@ class MyBottomSheet extends HookConsumerWidget {
     ];
 
     final selectedColor = useState<Color>(colors[0]);
-
-
 
     return GestureDetector(
       onTap: () {
@@ -82,8 +84,8 @@ class MyBottomSheet extends HookConsumerWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  InkWell(
-                    onTap: () async {
+                  ElevatedButton(
+                    onPressed: () {
                       if (name.text.isEmpty || textSize.text.isEmpty) {
                         showDialog(
                           context: context,
@@ -104,31 +106,28 @@ class MyBottomSheet extends HookConsumerWidget {
                               ),
                             );
 
-                 
-
                         ref
                             .watch(colorFontEntityProvider.notifier)
-                            .updateColorFont(
-                                selectedColor.value.toString(), double.parse(textSize.text));
+                            .updateColorFont(selectedColor.value.toString(),
+                                double.parse(textSize.text));
 
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black,
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: color, // Text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(10), // Rounded corners
                       ),
-                      child: const Text(
-                        'Create Profile',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      minimumSize: const Size(double.infinity,
+                          48), // Full width with a height of 48
+                    ),
+                    child: const Text(
+                      'Create Profile',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   )
                 ],

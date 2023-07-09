@@ -26,7 +26,8 @@ class SavedLocationProfileScreen extends ConsumerWidget {
         title: Text('Saved Location Profile'),
       ),
       body: SafeArea(
-        //Upgrade to switch expression/exhaustive checking
+
+        //Upgrade to switch expression/exhaustive checking if necessary
 
         child: locations.when(
             data: (locations) {
@@ -45,23 +46,39 @@ class SavedLocationProfileScreen extends ConsumerWidget {
                                 location.textSize,
                               );
                         },
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: ref
-                                .watch(getColorProvider(location.themeColor)),
-                            radius: 20,
-                          ),
-                          title: Text(
-                            location.name,
-                          ),
-                          subtitle: Text('Text Size: ${location.textSize}'),
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              ref
-                                  .watch(locationProfileRepositoryProvider)
-                                  .delete(location.id);
-                            },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Material(
+                            elevation: 0.6,
+                            child: ListTile(
+                              leading: Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: ref.watch(
+                                      getColorProvider(location.themeColor)),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              title: Text(
+                                location.name,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              subtitle: Text('Text Size: ${location.textSize}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  )),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  ref
+                                      .watch(locationProfileRepositoryProvider)
+                                      .delete(location.id);
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -70,7 +87,7 @@ class SavedLocationProfileScreen extends ConsumerWidget {
               );
             },
             error: (error, stack) => Text(error.toString()),
-            loading: () => CircularProgressIndicator()),
+            loading: () => const CircularProgressIndicator()),
       ),
     );
   }

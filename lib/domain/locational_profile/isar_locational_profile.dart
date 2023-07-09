@@ -2,6 +2,9 @@ import 'package:isar/isar.dart';
 
 part 'isar_locational_profile.g.dart';
 
+
+//Isar model for the locational profile
+
 @Collection()
 class IsarLocationalProfile {
 
